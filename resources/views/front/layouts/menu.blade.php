@@ -1,0 +1,141 @@
+       
+                    <form class="navbar-search" method="get" action="{{url('/search_product')}}">
+                        <label class="sr-only screen-reader-text" for="search">{{trans('admin.search_for')}}</label>
+                        <div class="input-group">
+                            <input type="text" id="search" class="form-control search-field" dir="ltr" value="" name="nameSearch" placeholder="{{trans('admin.search_for')}}" />
+                            <div class="input-group-addon search-categories">
+                                <select name='product_cat' id='product_cat' class='postform resizeselect' >
+                                    <option value='0' selected='selected'>{{trans('admin.all_cat')}}</option>
+                                    <?php
+                                    $departments= App\Model\DepartmentProducts::where('parent',0)->get();
+                                    ?>
+                                    @foreach($departments as $department)
+                                    <option value='{{$department->id}}'>@if( Lang() =='en' ) {{$department->en_name}}@else{{$department->ar_name}} @endif</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <div class="input-group-btn">
+                                <input type="hidden" id="search-param" name="post_type" value="product" />
+                                <button type="submit" class="btn btn-secondary"><i class="ec ec-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                    
+                        <?php if (Auth::user()) {
+                        # code...
+                        $product = App\Model\ShoppingCart::where('user_id','=',Auth::user()->id)->get()->all();
+                        $total =  App\Model\ShoppingCart::where('user_id','=',Auth::user()->id)->sum('price'); 
+                        $wish_product = App\Model\Wishlist::where('user_id','=',Auth::user()->id)->get()->all();
+                                    
+                        ?>
+
+                    <ul class="navbar-mini-cart navbar-nav animate-dropdown nav pull-right flip">
+
+                        <li class="nav-item dropdown" style="padding-right: 20px;" >
+                            <a href="{{url('/shopping-cart')}}" class="nav-link" data-toggle="dropdown">
+                                <i class="ec ec-shopping-bag"></i>
+                                  @if ( $product != null)
+                                <span class="cart-items-count count">{{ count ($product)}}</span>
+                              
+                                <span class="cart-items-total-price total-price"><span class="amount">{{$total}} LE</span></span>
+                                  @endif
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-mini-cart">
+                                <li>
+                                    <div class="widget_shopping_cart_content">
+
+                                        <ul class="cart_list product_list_widget ">
+                                            @foreach($product as $products)
+
+                                            <li class="mini_cart_item">
+
+                                                 {!! Form::open(['method'=>'delete','url'=>'/destroy_item/'.$products->id]) !!} 
+                                                <button title="Remove this item" type="submit" class="remove" href="{{url('/destroy_item/'.$products->id)}}">×</button>
+                                                 {!! Form::close() !!}
+
+                                                <a href="single_product/{{ $products->shoppings()->first()->id }}">
+                                                    <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="{{url('public/upload/products/'.$products->shoppings()->first()->photo)}}" alt="">{{$products->shoppings()->first()->en_title}}
+
+                                                    @if( Lang() =='en' ) {{$products->shoppings()->first()->en_title}}@else{{$products->shoppings()->first()->ar_title}} @endif
+                                                </a>
+
+                                                <span class="quantity"> <span class="amount"></span></span>
+                                            </li>
+
+ @endforeach
+                                      
+
+
+                                        </ul><!-- end product list -->
+
+
+                                        <p class="total"><strong>Total:</strong> <span class="amount">{{$total}} LE</span></p>
+
+
+                                        <p class="buttons">
+                                            <a class="button wc-forward" href="{{url('/shopping-cart')}}">View Cart</a>
+                                            <a class="button checkout wc-forward" href="{{url('/checkout')}}">Checkout</a>
+                                        </p>
+
+
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
+
+                 
+                                 
+                    <!-- heart  -->
+
+                    <ul class="navbar-mini-cart navbar-nav animate-dropdown nav pull-right flip">
+
+                        <li class="nav-item dropdown" style="padding-right: 20px;">
+                            <a href="{{ url('/wishlist') }}" class="nav-link">
+                                <i class="ec ec-favorites"></i>   
+                                @if($wish_product != null)
+                                  <span class="cart-items-count count">{{ count ($wish_product) }}</span>
+                                @endif
+                            </a>
+                            
+                        </li>
+
+                    </ul>
+
+
+        <?php } ?>
+
+        
+
+                </div>
+            </nav>
+
+
+
+            {{--         
+                    <ul class="navbar-wishlist nav navbar-nav pull-right flip">
+                        <li class="nav-item">
+                            <a href="{{url('/wishlist')}}" class="nav-link">
+                                <i class="ec ec-favorites"></i>   
+                                
+                                                    
+                            </a>
+                        </li>
+
+                         @if ( $product != null)
+                                <span class="badge"  style="height: 20px;
+                                width: 30px;
+                                display: table-cell;
+                                text-align: center;
+                                vertical-align: middle;
+                                border-radius: 50%;
+                                background: #333e48; color:#fff; margin-left : 50px;  " >{{ count ($product)}}</span>
+                                @endif   
+                    </ul>  --}}
+
+
