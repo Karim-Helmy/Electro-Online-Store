@@ -19,20 +19,8 @@
                             <article class="page type-page status-publish hentry">
                                 <header class="entry-header"><h1 itemprop="name" class="entry-title">Cart</h1></header><!-- .entry-header -->
 
-                                    
-                                    @if(session()->has('success'))
-                                    <div class="alert alert-info">
-                                        <span class="help-block">
-                                            <small class="text-success">
-                                                <button type="button" class="close" data-dismiss="alert">×</button> 
-                                                <h6>{{session('success')}}</h6>
-                                            </small>
-                                        </span>
-                                    </div>
-                                    @endif
+                            
 
-                    
-     
                                     <table class="shop_table shop_table_responsive cart">
                                         <thead> 
                                             <tr>
@@ -40,14 +28,12 @@
                                                 <th class="product-thumbnail">Image</th>
                                                 <th class="product-name">Product</th>
                                                 <th class="product-price">Price</th>
-                                                <th class="product-price">Add To Wishlist</th>
-
-                                                
-                                            
+                                              
+                                               
                                             </tr>
                                         </thead>
                                         <tbody>
-    @foreach($product as $products)
+@foreach($product as $products)
                                             <tr class="cart_item">
 
                                                 <td class="product-remove">
@@ -57,7 +43,7 @@
                                                 </td>
 
                                                 <td class="product-thumbnail">
-                                                    <a href="single_product/{{ $products->shoppings()->first()->id }}"><img width="180" height="180" src="{{url('public/upload/products/'.$products->shoppings()->first()->photo)}}" alt=""></a>
+                                                    <a href="single_product/{{ $products->shoppings()->first()->id }}"><img width="180" height="180" src="{{url('/upload/products/'.$products->shoppings()->first()->photo)}}" alt=""></a>
                                                 </td>
 
                                                 <td data-title="Product" class="product-name">
@@ -66,16 +52,6 @@
 
                                                 <td data-title="Price" class="product-price">
                                                     <span class="amount">{{$products->price}} LE</span>
-                                                </td>
-
-                                                <td data-title="add_to_wishlist" class="product-price">
-
-                                                    {!! Form::open(['method'=>'post','url'=>'/add_to_wishlist_from_card/'.$products->shoppings()->first()->id]) !!} 
-                                                    <button class="add_to_wishlist" type="submit" href="{{url('/add_to_wishlist_from_card/'.$products->shoppings()->first()->id)}}">+</button>
-                                                    {!! Form::close() !!}
-
-                                                        {{-- <a href="{{url('/add_to_wishlist_from_card/'.$products->id)}}" rel="nofollow" class="add_to_wishlist"> {{trans('admin.wishlist')}}</a> --}}
-
                                                 </td>
 
 

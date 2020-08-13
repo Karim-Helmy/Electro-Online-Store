@@ -32,7 +32,7 @@
                                             <p class="form-row form-row-last">
                                                 <label for="order_email">Billing Email</label>
                                                 <input class="input-text" type="text" name="email" id="order_email" placeholder="Email you used during checkout." />
-                                                {{-- <p class="help-block">{{$errors->first('email')}}</p> --}}
+                                                <p class="help-block">{{$errors->first('email')}}</p>
                                             </p>
 
                                             <div class="clear"></div>
@@ -101,15 +101,7 @@
                                     </div><!-- /.table-responsive -->
                                 </div><!-- .entry-content -->
                             </article><!-- #post-## -->
-                            <div class="wc-proceed-to-checkout">
-
-                                <a class="checkout-button button alt wc-forward" href="{{url('/allproducts')}}">Continue Shopping</a>
-
-                            </div>
                             @endif
-
-                            
-
                         </main><!-- #main -->
                     </div><!-- #primary -->
                 </div><!-- .col-full -->

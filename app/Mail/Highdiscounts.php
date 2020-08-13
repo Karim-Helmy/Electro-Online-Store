@@ -28,6 +28,6 @@ class Highdiscounts extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@high-discounts.net')->view('mail');
+        return $this->view('view.name');
     }
 }

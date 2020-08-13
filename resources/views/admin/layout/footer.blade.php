@@ -1,57 +1,52 @@
-        <!-- Footer -->
-        <div class="footer text-muted">
-            &copy; 2016. <a href="#">Ecommerce Web App </a> by <a href="#" target="_blank"> Mohamed Ragab</a>
-        </div>
-        <!-- /footer -->
+<!-- Footer -->
+<div class="footer text-muted">
+    &copy; 2016. <a href="#">Ecommerce Web App </a> by <a href="#" target="_blank"> Mohamed Ragab</a>
+</div>
+<!-- /footer -->
 
-        </div>
-        <!-- /content area -->
+</div>
+<!-- /content area -->
 
-        </div>
-        <!-- /main content -->
+</div>
+<!-- /main content -->
 
-        </div>
-        <!-- /page content -->
+</div>
+<!-- /page content -->
 
-        </div>
-        <!-- /page container -->
-        {{Html::script('adminpanel/assets/js/core/libraries/jquery.min.js')}}
+</div>
+<!-- /page container -->
 
-                <script>
+</body>
+</html>
+<script>
 
-                    $('.addInput').click(function(){
+    $('.addInput').click(function(){
 
-                        $(this).parent().next('.inputDiv').clone().appendTo(".imageUpload");
+        $(this).parent().next('.inputDiv').clone().appendTo(".imageUpload");
 
-                    });
-                    $('body').on('click', '.removeInput', function() {
-                        $(this).parent().parent().remove();
-                    });
-
-
-
-                        $('.addcolor').click(function(){
-
-                        $(this).parent().next('.colorDiv').clone().appendTo(".colorUpload");
-
-                    });
-                    $('body').on('click', '.removecolor', function() {
-                        $(this).parent().parent().remove();
-                    });
+    });
+    $('body').on('click', '.removeInput', function() {
+        $(this).parent().parent().remove();
+    });
 
 
-                        $('.addsize').click(function(){
 
-                        $(this).parent().next('.sizeDiv').clone().appendTo(".sizeUpload");
+        $('.addcolor').click(function(){
 
-                    });
-                    $('body').on('click', '.removesize', function() {
-                        $(this).parent().parent().remove();
-                    });
-                </script>
+        $(this).parent().next('.colorDiv').clone().appendTo(".colorUpload");
+
+    });
+    $('body').on('click', '.removecolor', function() {
+        $(this).parent().parent().remove();
+    });
 
 
-                @yield('js_2')
+          $('.addsize').click(function(){
 
-    </body>
-    </html>
+        $(this).parent().next('.sizeDiv').clone().appendTo(".sizeUpload");
+
+    });
+    $('body').on('click', '.removesize', function() {
+        $(this).parent().parent().remove();
+    });
+</script>

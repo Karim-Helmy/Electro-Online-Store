@@ -27,7 +27,6 @@
     @endif
 
     {{Html::style('front/assets/css/colors/yellow.css') }}
-       {{Html::style('public/front/assets/css/jquery.fancybox.min.css')}}
       <link href="https://fonts.googleapis.com/css?family=Raleway:200,100,400" rel="stylesheet" type="text/css" />
 @if(lang() == 'ar')
 <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use App\Model\ShoppingCart ;
 use Validator;
 use Hash;
 use Auth;
@@ -34,11 +33,11 @@ class UserApi extends Controller
                 $token=str_random(60).time();
                 DB::table('users')->where('email', $request->email)->update(['api_token' => $token]);
                 $user =  DB::table('users')->where('email', $request->email)->first();
-               $totalcount= ShoppingCart::where('user_id','=',$user->id)->count();
+              
                if( $request->lang == "en"){
-                   return response(['status' => true,'messages' => ["success"=>[trans('api.loginsuccess')]],'data'=>['user'=>$user,'api_token'=>$user->api_token,'count'=>$totalcount]]);
+                   return response(['status' => true,'messages' => ["success"=>[trans('api.loginsuccess')]],'data'=>['user'=>$user,'api_token'=>$user->api_token]]);
                }else{
-                   return response(['status' => true,'messages' => ["success"=>["تم تسجيل الدخول "]],'data'=>['user'=>$user,'api_token'=>$user->api_token,'count'=>$totalcount]]);
+                   return response(['status' => true,'messages' => ["success"=>["تم تسجيل الدخول بنجاح"]],'data'=>['user'=>$user,'api_token'=>$user->api_token]]);
                }
               
             }
@@ -81,11 +80,11 @@ class UserApi extends Controller
                       $token  = str_random(60).time();
                       DB::table('users')->where('email', $request->email)->update(['api_token' => $token]);
                       $user   =  DB::table('users')->where('email', $request->email)->first();
-                       $totalcount= ShoppingCart::where('user_id','=',$user->id)->count();
+                      
                       if( $request->lang == "en"){
-                            return response(['status' => true,'messages' => ["success"=>[trans('api.loginsuccess')]], "data"=>['user'=>$user,'api_token'=>$user->api_token,'count'=>$totalcount] ]);
+                            return response(['status' => true,'messages' => ["success"=>[trans('api.loginsuccess')]], "data"=>['user'=>$user,'api_token'=>$user->api_token] ]);
                       }else {
-                            return response(['status' => true,'messages' => ["success"=>["تم تسجيل الدخول بنجاح"]], "data"=>['user'=>$user,'api_token'=>$user->api_token,'count'=>$totalcount] ]);
+                            return response(['status' => true,'messages' => ["success"=>["تم تسجيل الدخول بنجاح"]], "data"=>['user'=>$user,'api_token'=>$user->api_token] ]);
                       }
                     }
                     else { 

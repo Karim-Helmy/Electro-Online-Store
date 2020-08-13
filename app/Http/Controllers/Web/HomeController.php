@@ -22,13 +22,9 @@ use App\Model\DepartmentProducts as Dep;
 use App\Model\ContactUs;
 use App\Model\SliderImage;
 use App\Model\Faq ;
-use App\Report;
 use Validator;
 use Session;
 use Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Input;
-use DB;
 
 class HomeController extends Controller
 {
@@ -70,9 +66,10 @@ class HomeController extends Controller
         $adde->vendor_id = $product->user_id;
         $adde->vendor_type = $product->user_type;
         $adde->save();
-        session()->flash('success',trans('admin.add_to_card'));
-        return Redirect::to('/shopping-cart');
+
+        return back();
     }
+
 
 
     public function getCart()
@@ -83,17 +80,20 @@ class HomeController extends Controller
         return view(app('f').'.shopping-cart' , ['product'=>$product , 'total'=>$total, 'totalweight'=>$totalweight]);
     }
 
-    public function billing()
+
+
+       public function billing()
     {
+        
+        
         return view(app('f').'.track');
     }
      public function track(Request $request)
     {
             $rules = [
             'code' => 'required',
-            'email' => 'nullable|email',
+            'email' => 'required',
             ];
-
         $Validator   = Validator::make($request->all(),$rules);
         $Validator->SetAttributeNames ([
             'code' => trans('admin.code'),
@@ -103,39 +103,23 @@ class HomeController extends Controller
         if($Validator->fails())
         {
             return back()->withInput()->withErrors($Validator);
-        }
-        else
-        { 
-            $order = Order::where('code','=',$request->input('code'))->first();
-            if(Input::has('email'))
-            {
-                $order->email = $request->email;
-                $order->save();
-                $orderItem  = OrderItem::where('order_id','=',$order->id)->get();
-                return view(app('f').'.track')->with('order',$order)->with('orderItem',$orderItem);
-            }
-            else
-            {    
-                $orderItem  = OrderItem::where('order_id','=',$order->id)->get();
-                return view(app('f').'.track')->with('order',$order)->with('orderItem',$orderItem);
-            }
+        }else{
+        $order = Order::where('code','=',$request->input('code'))->first();
+        
+            $orderItem  = OrderItem::where('order_id','=',$order->id)->get();
+      
 
-        }
-
-
+        return view(app('f').'.track')->with('order',$order)->with('orderItem',$orderItem);
+    }
     }
     /**
      * Remove the specified item from shopping_cart.
      *
 
      */
-
-    //khalaf
     public function destroyitem($id) {
-
         $delete = ShoppingCart::find($id);
         $delete->delete();
-        session()->flash('success',trans('admin.flash_delete'));
         return back();
     }
 
@@ -147,38 +131,21 @@ class HomeController extends Controller
         $adde->user_id    = Auth::user()->id;
         $adde->product_id = $product->id;
         $adde->save();
+
         return back();
     }
-
-
-    //khalaf
-    public function AddCardToWish (Request $request, $id)
-    {
-        // print_r($request->id);die;
-        $product  = Products::find($id);
-        $add_wish_card = new Wishlist;
-        $add_wish_card->user_id = Auth::user()->id;
-        $add_wish_card->product_id = $request->id;
-        // echo("<pre>");print_r($add_wish_card); echo("</pre>");die;
-        $add_wish_card->save();
-        session()->flash('success',trans('admin.flash_card_to_wish'));
-        return back();
-    }
-
 
       public function getWishlist()
     {
         $product = Wishlist::where('user_id','=',Auth::user()->id)->get()->all();
-        // echo "<pre>"; print_r($product); echo "<pre>";die;
+       
         return view(app('f').'.wishlist' , ['product'=>$product]);
     }
 
 
-     //khalaf
       public function DestroyItemFromWishlist($id) {
         $delete = Wishlist::find($id);
         $delete->delete();
-        session()->flash('success',trans('admin.delete_from_wish'));
         return back();
     }
 
@@ -192,7 +159,6 @@ class HomeController extends Controller
         return view(app('f').'.checkout', ['product'=>$product , 'total'=>$total ,'cities'=>$cities, 'totalweight'=>$totalweight]);
     }
 
-    
     public function PlaceOrder(Request $request)
     {
 
@@ -363,74 +329,6 @@ class HomeController extends Controller
     {
         $about=AboutUs::find(1);
         return view('front.aboutus')->with('about',$about);
-    }
-
-    public function profile()
-    {
-
-        $UserData = User::where('id' , Auth::user()->id)->get();
-        $op_email = DB::Table('orders')
-                    ->where('user_id' , Auth::user()->id)
-                    ->select('email')
-                    ->distinct()
-                    ->get();
-        $user_orders = DB::table('orders')
-                        ->rightJoin('order_items' , 'orders.id' , '=' , 'order_items.order_id')
-                        ->select('orders.user_id','orders.code','orders.email','orders.name','orders.phone','orders.level','orders.price')
-                        ->where('user_id' , '=' , Auth::user()->id)
-                        ->distinct('orders.code')
-                        ->get();
-        $product = Wishlist::where('user_id','=',Auth::user()->id)->get()->all();
-
-        $tickets = Report::where('user_id','=',Auth::user()->id)->get()->all();
-
-        // echo "<pre>"; print_r($user_orders); echo "</pre>"; die;
-        return view ('front.profile' , ['UserData' => $UserData , 'op_email' => $op_email ,
-         'user_orders'=> $user_orders , 'product' => $product , 'tickets' => $tickets ]);
-
-    }
-
-
-    public function UpdateProfile (Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string|max:60',
-            'password' => 'required|min:6'
-        ]);
-        DB::table('users')
-            ->where('id', Auth::user()->id)
-            ->update(['name' => $request->username  , 'password' => bcrypt($request->password)]);
-        return Redirect::to('/profile')->with('flash_message_success' , 'profile updated sussesssfuly');
-    }
-
-    public function help ()
-    {
-        $allVendor = DB::table('users')
-        ->where('level' , '=' , 'vendor')
-        ->get();
-        return view('front.helpCenter')->with('allVendor' , $allVendor);
-    }
-
-    //khalaf
-    public function complain (Request $request)
-    {
-
-        $request->validate([
-            'code' => 'required|string|max:12',
-            'complain' => 'required',
-            'message' => 'string|min:10',
-        ]);
-        // echo"<pre>";  print_r ($request->all()); die;
-        $report = new Report;
-        $report->order_code  = $request->code;
-        // $report->vendor_id = $request->vendor_name;
-        $report->user_id = Auth::user()->id;
-        $report->complain = $request->complain;
-        $report->message = $request->message;
-        $report->stauts = 'Pinding';
-        $report->save();
-        session()->flash('success',trans('admin.compalinDone'));
-        return back();
     }
 
 }

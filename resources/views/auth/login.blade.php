@@ -85,13 +85,7 @@
                 </p>
 
                 <p class="form-row form-row-wide {{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="password" >Password*
-                            @if(lang() == 'ar')
-                            <span  style="color:red" > ( لا يقل عن 6 حروف )</span>
-                            @else  
-                            <span  style="color:red"> (Not Less 6 character) </span>
-                            @endif
-                    </label>
+                    <label for="password">Password<span class="required">*</span></label>
                     <input class="input-text" type="password" name="password" id="password">
                     @if ($errors->has('password'))
                         <span class="help-block">

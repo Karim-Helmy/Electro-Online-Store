@@ -49,17 +49,8 @@
                                        <li {{{ (Request::is('admin/orders') ? ' class=active' : '') }}}>
                                     <a href="{{url('vendor/orders')}}"><i class="  icon-price-tags"></i> <span>{{trans('admin.orders')}}</span></a>
                                 </li>
-
-
-                                <li {{{ (Request::is('vendor/complains') ? ' class=active' : '') }}}>
-                                    <a href="{{ url('vendor/complain') }}"><i class=" icon-info3"></i><span>{{trans('admin.Complain')}}</span></a>
-                                </li>
-
-
-                                
+                                        
                             </ul>
-
-                          
 
                         @else
                             <ul class="navigation navigation-main navigation-accordion">
@@ -161,17 +152,6 @@
                                         <li {{{ (Request::is('admin/allcontact') ? ' class=active' : '') }}}>
                                     <a href="{{aurl('allcontact')}}"><i class="  icon-envelope"></i> <span>{{trans('admin.inbox')}}</span></a>
                                 </li>
-
-
-                                <li {{{ (Request::is('admin/compalins') ? ' class=active' : '') }}}>
-                                <a href="{{ aurl('complain') }}"><i class=" icon-info3"></i> <span>{{trans('admin.Complain')}}</span></a>
-                                </li>
-
-
-                                    <li {{{ (Request::is('admin/social') ? ' class=active' : '') }}}>
-                                        <a href="{{ aurl('social') }}"><i class=" icon-facebook"></i> <span>{{trans('admin.social')}}</span></a>
-                                    </li>
-    
 
                             </ul>
                         @endif

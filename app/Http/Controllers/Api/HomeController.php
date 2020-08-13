@@ -20,7 +20,7 @@ use Validator;
 use Session;
 use Auth;
 
-class HomeApi extends Controller
+class HomeController extends Controller
 {
 
     public function index()

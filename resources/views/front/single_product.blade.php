@@ -19,7 +19,20 @@
     position: static;
     padding: .5rem 1rem;
 }
+  .lightbox {
+  /** Default lightbox to hidden */
+  display: none;
 
+  /** Position and style */
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+}
 
 /*.lightbox img {*/
   /*!** Pad the lightbox image *!*/
@@ -28,9 +41,34 @@
   /*margin-top: 2%;*/
 /*}*/
 
+.lightbox:target {
+  /** Remove default browser outline */
+  outline: none;
+
+  /** Unhide lightbox **/
+  display: block;
+}
 
 
- 
+   @if(lang() == 'ar')
+   .lightbox img {
+  max-width: 93%;
+  max-height: 85%;
+  margin-top: 2%;
+  margin-right: 30%;
+  background-color: #fff;
+  padding: 20px 20px;
+}
+@else
+.lightbox img {
+  max-width: 93%;
+  max-height: 85%;
+  margin-top: 2%;
+  margin-left: 30%;
+  background-color: #fff;
+  padding: 20px 20px;
+}
+   @endif
     </style>
   <div id="content" class="site-content" tabindex="-1">
       
@@ -70,10 +108,12 @@
                                 <div class="images electro-gallery">
                                     <div class="thumbnails-single owl-carousel">
 
-                                        <a href="{{url('public/upload/products/'.$product->photo)}}" data-fancybox-trigger="gallery" data-fancybox="images">
-                                            <img src="{{url('public/upload/products/'.$product->photo)}}" >
+                                        <a href="#img1{{$product->id}}">
+                                            <img src="{{url('public/upload/products/'.$product->photo)}}" class="thumbnail">
                                         </a>
-                                  
+                                        <a href="#_" class="lightbox" id="img1{{$product->id}}">
+                                            <img src="{{url('public/upload/products/'.$product->photo)}}">
+                                        </a>
 
                                     </div><!-- .thumbnails-single -->
 
@@ -84,10 +124,12 @@
                                             <div class="col-md-4">
 
 
-                                                <a href="{{url('public/upload/products/'.$media->media)}}" data-fancybox-trigger="gallery" data-fancybox="images" >
+                                                <a href="#img1{{$media->id}}"  title="" data-rel="prettyPhoto[product-gallery]">
                                                     <img src="{{url('public/upload/products/'.$media->media)}}">
                                                 </a>
-                                             
+                                                <a href="#_" class="lightbox" id="img1{{$media->id}}">
+                                                    <img src="{{url('public/upload/products/'.$media->media)}}">
+                                                </a>
                                                           </div>
                                             @endforeach
                                         @endif
@@ -162,9 +204,9 @@
                                     
                                    
                                         @if( Lang() =='en' ) 
-                                         <p style="font-size:17px"><strong>Product Price</strong>: {{$product->price}} LE</p>
+                                         <p><strong>Product Price</strong>: {{$product->price}} LE</p>
                                         @else
-                                          <p><strong style="font-size:17px"> سعر المنتج </strong>: {{$product->price}} جنيهات </p>
+                                          <p><strong> سعر المنتج </strong>: {{$product->price}} جنيهات </p>
                                         @endif
                                          
                                          
@@ -174,7 +216,7 @@
                                               {{ csrf_field() }}
                                               <input type="hidden"  name="user_id" value="{{$product->user_id}}" />
                                               <input type="hidden"  name="user_type" value="{{$product->user_type}}" />
-                                         <p><strong>Product Owner</strong>: <button type="submit" style="background-color: transparent;border-color: transparent;" class="ff" ><strong style="font-size:17px">{{$owners->first()->name}}</strong></button> </p>
+                                         <p><strong>Product Owner</strong>: <button type="submit" ><strong style="font-size:17px">{{$owners->first()->name}}</strong></button> </p>
                                         </form>
                                         @else
                                         <?php $owners=App\User::where('id','=',$product->user_id)->get(); ?> 
@@ -183,15 +225,12 @@
                                               {{ csrf_field() }}
                                               <input type="hidden"  name="user_id" value="{{$product->user_id}}" />
                                               <input type="hidden"  name="user_type" value="{{$product->user_type}}" />
-                                         <p><strong>Product Owner</strong>: <button type="submit" style="background-color: transparent;border-color: transparent;" class="ff" ><strong style="font-size:17px">{{$owners->first()->name}}</strong></button> </p>
+                                         <p><strong>Product Owner</strong>: <button type="submit"  ><strong>{{$owners->first()->name}}</strong></button> </p>
                                         </form>
                                      
                                         
                                         @endif
-                                       <style>.ff:hover {
-    
-    color: #FED700!important;
-}</style>
+                                       
                                 </div><!-- .description -->
 
                      
@@ -213,7 +252,7 @@
                                                 @endif
                                                
                                             @endif
-                                            @if( $product->stock >= 1)
+                                   @if( $product->stock >= 1)
                                                 @if( Lang() =='en' ) 
                                                  <a href="{{route('product.wishlist' , ['id' => $product->id])}}"
                                                    class="add_to_wishlist button" style="color:green;"> Add to Wishlist</a>
@@ -223,16 +262,9 @@
                                                 @endif
                                                
                                             @endif
-
-                                            <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fhigh-discounts.net&layout=button_count&size=small&mobile_iframe=true&appId=300816603868739&width=69&height=20" width="69" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-
                                         </div>
                                     </div>
-
-
                                 </form>
-
-
 
 
                             </div><!-- .summary -->
@@ -269,7 +301,7 @@
                                                     <div class="price-add-to-cart">
                                                         <span class="price">
                                                             <span class="electro-price">
-                                                                <ins><span class="amount">{{$similar->price}} LE</span></ins>
+                                                                <ins><span class="amount">&#036;{{$similar->price}}</span></ins>
                                                             </span>
                                                         </span>
                                                         <a rel="nofollow"

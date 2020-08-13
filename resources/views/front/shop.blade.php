@@ -114,11 +114,11 @@
                                     </ul>
                                             <div class="shop-control-bar-bottom">
                                 <nav class="woocommerce-pagination">
-                                    
-                                      <ul class="page-numbers">
-                                   {{$products->links()}}
-                         </ul>
-                             
+                                    <ul >
+                                      
+                                   {!! str_replace('/?','?',$products->render()) !!}
+                         
+                                    </ul>
                                 </nav>
                             </div>
                                 </div>

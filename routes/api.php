@@ -47,7 +47,6 @@ Route::group([ 'namespace' => 'Api'], function () {
   		Route::post('/search','ProductsApi@search');
   		Route::post('/addtocart','ProductsApi@addToCart');
   		Route::get('/getcart/{id}','ProductsApi@getcart');
-  		Route::get('/getcartcount/{id}','ProductsApi@getcartcount');
   		Route::post('/destroyitemcart/{id}','ProductsApi@destroyItemCart');
   	    Route::post('/addtowishlist','ProductsApi@addToWishList');
   	    Route::get('/getwishlist/{id}','ProductsApi@getWishList');
@@ -57,9 +56,7 @@ Route::group([ 'namespace' => 'Api'], function () {
   		Route::get('/myorders/{id}', 'ProductsApi@myOrders' );
   		Route::get('/myordersitems/{id}', 'ProductsApi@myOrdersItems' );
   		Route::post('/track','ProductsApi@track');
-  		Route::get('/contactus','HomeApi@contactus');
-  		Route::get('/aboutus','HomeApi@aboutus');
-        Route::post('/error','ProductsApi@handle');
+  			
 //   			Route::get('/', 'HomeApi@categories');
 //   		Route::get('/single_product/{id}', 'HomeApi@single');
 //   		Route::get('/allproducts','HomeApi@products');
@@ -67,9 +64,10 @@ Route::group([ 'namespace' => 'Api'], function () {
 //  		Route::get('/singledep','HomeApi@childDepartments');
 //         Route::get('/productdepartment','HomeApi@productDepartment');
 //         Route::get('/singleproduct','HomeApi@singleProduct');
-        
+        Route::get('/contactus','HomeApi@contactus');
 //         Route::POST('/insertcontactus','HomeApi@addContact');
-         
+         Route::get('/aboutus','HomeApi@aboutus');
+
 	});
 	
 	//home api

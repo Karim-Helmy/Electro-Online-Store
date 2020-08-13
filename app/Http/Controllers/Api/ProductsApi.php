@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Model\Cart;
-use App\Model\Errors;
+use App\Model\Cart ;
 use App\Model\DepartmentProducts;
 use App\Model\Products ;
 use App\Model\ProductsGallary ;
@@ -59,16 +58,16 @@ class ProductsApi extends Controller
  {
      $single_product=Products::find($id);
       $department = Dep::where('id','=',$single_product->dep_id)->first();
-      $gallary  = ProductsGallary::where('product_id','=',$id)->pluck('media')->filter();
-      $size  = ProductsSize::where('product_id','=',$id)->pluck('size')->filter();
-      $color  = ProductsColor::where('product_id','=',$id)->pluck('color')->filter();
+      $gallary  = ProductsGallary::where('product_id','=',$id)->pluck('media');
+      $size  = ProductsSize::where('product_id','=',$id)->pluck('size');
+      $color  = ProductsColor::where('product_id','=',$id)->pluck('color');
        $relatedProduct = Products::where('dep_id',$single_product->dep_id)->get();
      return response(responses( true, null,['singleProduct'=>$single_product,'department_en_name'=>$department->en_name,'department_ar_name'=>$department->ar_name,'relatedProduct'=>$relatedProduct,'gallary'=>$gallary,'size'=>$size,'color'=>$color]));
  }
  
  public function brand ()
  {
-     $brand= Dep::where('parent', '!=',0)->orderBy('id', 'asc')->take(20)->get();
+     $brand= Dep::where('parent', '!=',0)->get();
       return response(responses( true, null,['sub_categories'=>$brand]));
  }
  
@@ -150,16 +149,9 @@ class ProductsApi extends Controller
          $cart = ShoppingCart::where('user_id','=',$id)->get();
          $totalprice =  ShoppingCart::where('user_id','=',$id)->sum('price');
          $totalweight =  number_format((ShoppingCart::where('user_id','=',$id)->sum('weight')),2);
-         $totalcount= ShoppingCart::where('user_id','=',$id)->get()->count();
+         $totalcount= ShoppingCart::where('user_id','=',$id)->count();
          return response(responses( true, null,['cart'=>$cart,'totalprice'=>$totalprice,'totalweight'=>$totalweight,'count'=>$totalcount]));
-  }
-
-    
- public function getcartcount($id)
- {
-         $totalcount= ShoppingCart::where('user_id','=',$id)->get()->count();
-         return response(responses( true, null,['count'=>$totalcount]));
-  }
+    }
 
  public function destroyItemCart($id) 
  {
@@ -325,13 +317,7 @@ class ProductsApi extends Controller
        
     }
     }
-  public function handle(Request $request)
-    {
-        $add = new Errors;
-      $add->message             = $request->message;
-      $add->save();  
-      return response(responses( true, ["success"=>[trans('admin.added')]],null));
-}
+ 
  
  
 }

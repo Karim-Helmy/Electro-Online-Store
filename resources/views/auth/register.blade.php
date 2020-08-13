@@ -49,13 +49,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" >Password*
-                                        @if(lang() == 'ar')
-                                        <span  style="color:red" > ( لا يقل عن 6 حروف )</span>
-                                        @else  
-                                        <span  style="color:red"> (Not Less 6 character) </span>
-                                        @endif
-                                </label>
+                            <label for="password" class="control-label">Password</label>
 
                             <div class="">
                                 <input id="password" type="password" class="form-control" name="password" required>

@@ -127,15 +127,10 @@
                         <li class="product_cat">
 
                             <ul>
-                                <li class="cat-item current-cat"><a href="product-category.html"> All Categories</a> <span class="count">({{count($departments)}})</span>
+                                <li class="cat-item current-cat"><a href="product-category.html"> All Categories</a> <span class="count">(13)</span>
                                     <ul class='children'>
                                         @foreach($departments as $department)
-                                        <li class="cat-item">
-                                              <form  method="get" action="{{url('/search_product')}}">
-                                         <input type="hidden"  name="product_cat" value="{{$department->id}}" />
-                                            <button style="background-color: transparent;border-color: transparent;" class="ff" type="submit">@if( Lang() =='en' ) {{$department->en_name}}@else{{$department->ar_name}} @endif</button>
-                                        </form>
-                                            </li>
+                                            <li class="cat-item"><a href="{{url('/single_dep/'.$department->id)}}">{{$department->en_name}}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
@@ -143,19 +138,11 @@
                         </li>
                     </ul>
                 </aside>
-<style>.ff:hover {
-    
-    color: #FED700!important;
-}</style>
+
 
                 <aside class="widget widget_text">
                     <div class="textwidget">
-                              @if(lang() == 'ar')
-                                  <img src="{{url('public/upload/products/2.jpg')}}" alt="Banner">
-                                @else
-                                  <img src="{{url('public/upload/products/1.jpg')}}" alt="Banner">
-                                @endif
-                              
+                        <a href="#"><img src="assets/images/banner/ad-banner-sidebar.jpg" alt="Banner"></a>
                     </div>
                 </aside>
                 <aside class="widget widget_products">

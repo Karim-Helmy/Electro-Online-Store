@@ -8,15 +8,7 @@
                 <div class="container">
                     <nav>
                         <ul id="menu-top-bar-left" class="nav nav-inline pull-left animate-dropdown flip">
-                            <li class="menu-item animate-dropdown">
-                            <a title="" href="#">
-                                    @if(lang() == 'ar')
-                                        مرحبا بك في بيت التسوق الاول 
-                                    @else
-                                      Welcome to first Shopping House
-                                    @endif
-
-                            </a></li>
+                            <li class="menu-item animate-dropdown"><a title="Welcome to Worldwide Electronics Store" href="#">Welcome to Worldwide Electronics Store</a></li>
                         </ul>
                     </nav>
                     
@@ -101,7 +93,7 @@
                                 </a>
 
                                 <ul class=" dropdown-menu">
-                                <li class="menu-item animate-dropdown"><a title="My Account" href="{{ url('/profile') }}"><i class="ec ec-user"></i>My Account</a></li>
+                                      <li class="menu-item animate-dropdown"><a title="My Account" href="my-account.html"><i class="ec ec-user"></i>My Account</a></li>
                                     <li class="menu-item animate-dropdown">
                                         <a href="{{ url('/logout') }}"
                                            onclick="event.preventDefault();

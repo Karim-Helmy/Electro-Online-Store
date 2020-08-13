@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Hash;
 use Auth;
-use App\Mail\Highdiscounts;
 use App\User;
 class SessionController extends Controller
 {
@@ -49,7 +48,7 @@ class SessionController extends Controller
             session()->flash('success', 'User has been added');
             $data->status= 1;
         }
-         \Mail::to($request->email)->send(new Highdiscounts());
+
         $data->save();
 
         return redirect(url('login'));
